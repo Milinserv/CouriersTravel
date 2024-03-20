@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         const data = {
             region: $("#region").val(),
-            livingDate: $("#livingDate").val(),
+            travelDate: $("#travelDate").val(),
             fio: $("#fio").val(),
         };
 
@@ -13,7 +13,16 @@ $(document).ready(function() {
             type: "post",
             data: data,
             success: function (response) {
-                console.log("Данные успешно отправлены!", response);
+                const res = JSON.parse(response);
+                if (res.stateCreate === true) {
+                    $('#info').val('Курьер прибудет ' + res.endDate).css({
+                        'color':'green',
+                    });
+                } else {
+                    $('#info').val('Курьер занят в это время').css({
+                        'color':'red',
+                    });
+                }
             },
             error: function (error) {
                 console.error("Ошибка при отправке данных: ", error);

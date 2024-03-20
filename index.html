@@ -5,21 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="../src/createTravelSchedule.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="src/createTravelSchedule.js"></script>
+    <script src="src/displayAllTravels.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
 </head>
-<body class="text-center justify-content-center">
+<body class="container text-center justify-content-center">
 <main>
-    <ul class="list-group">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-    </ul>
+    <div style="padding-top: 40px !important;">
+        <table class="table" id="travels">
+            <thead>
+            <tr>
+                <th scope="col">Номер поездки</th>
+                <th scope="col">ФИО Курьера</th>
+                <th scope="col">Регион отправки</th>
+                <th scope="col">Дата отправки</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
     <div style="padding-top: 100px !important;">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -30,43 +39,66 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Создать расписание</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="col-md-4 mt-xl-5 offset-md-4" method="post" id="sendTravel">
-                        <h1 class="h3 mb-5 fw-normal">Создать расписание</h1>
+                    <form class="" method="post" id="sendTravel">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="region" name="region">
+                            <select class="form-select" id="region" name="region" aria-label="Default select example">
+                                <option value="1">Санкт-Петербург</option>
+                                <option value="2">Уфа</option>
+                                <option value="3">Нижний Новгород</option>
+                                <option value="4">Владимир</option>
+                                <option value="5">Кострома</option>
+                                <option value="6">Екатеринбург</option>
+                                <option value="7">Ковров</option>
+                                <option value="8">Воронеж</option>
+                                <option value="9">Самара</option>
+                                <option value="10">Астрахань</option>
+                            </select>
                             <label>Регион</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="date" class="form-control" id="livingDate" name="livingDate">
+                            <input type="date" class="form-control" id="travelDate" name="travelDate">
                             <label>Дата выезда из Москвы</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="fio" name="fio">
+                            <select class="form-select" id="fio" name="fio" aria-label="Default select example">
+                                <option value="1">Иванов Иван Иванович</option>
+                                <option value="2">Иванова Екатерина Петровна</option>
+                                <option value="3">Тихонов Максим Петрович</option>
+                                <option value="4">Слуцкий Владимир Владимирович</option>
+                                <option value="5">Шумнов Константин Андреевич</option>
+                                <option value="6">Рылов Александр Сергеевич</option>
+                                <option value="7">Смирнов Сергей Петрович</option>
+                                <option value="8">Симонов Анатолий Юрьевич</option>
+                                <option value="9">Симонова Алеся Петровна</option>
+                                <option value="10">Ложкин Константин Петрович</option>
+                            </select>
                             <label>ФИО курьера</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="info" name="info">
+                            <input type="text" class="form-control" id="info" name="info" disabled value="">
                             <label>Информационное поле</label>
                         </div>
 
                         <input class="w-100 btn btn-lg btn-primary mt-4 mb-4" type="submit" value="Создать"/>
-                        <button type="submit">Отправить</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination" id="pagination">
+
+        </ul>
+    </nav>
+
 </main>
 </body>
 </html>
