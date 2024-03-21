@@ -20,7 +20,7 @@ try {
         $querySearchTravelDate = pdo()->prepare("SELECT region_id, departure_date FROM travel_schedule WHERE courier_Id = :courierId");
         $querySearchTravelDate->bindParam(':courierId', $courierId);
         $querySearchTravelDate->execute();
-        $courierAllTravel = $querySearchTravelDate->fetchAll(PDO::FETCH_ASSOC); //все даты поездок курьера
+        $courierAllTravel = $querySearchTravelDate->fetchAll(PDO::FETCH_ASSOC); //все даты и регионы поездок курьера
 
         $interval = DateInterval::createFromDateString('1 day');
         $offsetDay = (string)($travelTime['count_days_way']);
@@ -32,12 +32,14 @@ try {
 
         $period = new DatePeriod($startDate, $interval, $endDate); //период поездки курьера
 
-        $isTravel = false;
+        $isTravel = false; //поездка не существует по дефолтку
 
+        //проходимся по всем датам новой поездки
         foreach ($period as $periodItem) {
             $periodItemDate = $periodItem->format('Y-m-d');
             $courierAllEndDate = array();
 
+            //проходимся по всем датам курьера и сравниваем их с новой датой
             foreach ($courierAllTravel as $courierTravel) {
                 $queryCourier = pdo()->prepare("SELECT count_days_way FROM regions WHERE id = :id");
                 $queryCourier->bindParam(':id', $courierTravel['region_id']);

@@ -13,27 +13,39 @@ try {
     $total_results = $s->fetchColumn();
     $total_pages = ceil($total_results/$limit);
 
-    if (!isset($_GET['page'])) {
-        $page = 1;
-    } else{
-        $page = $_GET['page'];
+    $filteredObject = array();
+    $r = '';
+    $res = '';
+
+    $page = 1;
+
+    if ($_GET['searchDate'] != '') {
+        $starting_limit = ($page - 1) * $limit;
+        $show  = "SELECT * FROM travel_schedule WHERE departure_date = :departure_date ORDER BY id DESC";
+
+        $r = pdo()->prepare($show);
+        $r->bindParam(':departure_date', $_GET['searchDate']);
+//        $r->bindParam(':startDate', $starting_limit, PDO::PARAM_INT);
+//        $r->bindParam(':endDate', $limit, PDO::PARAM_INT);
+    } else {
+        $page = $_GET['currentPage'] !== '' ? $_GET['currentPage'] : 1;
+
+        $starting_limit = ($page - 1) * $limit;
+        $show  = "SELECT * FROM travel_schedule ORDER BY id DESC LIMIT ?,?";
+
+        $r = pdo()->prepare($show);
+        $r->bindParam(1, $starting_limit, PDO::PARAM_INT);
+        $r->bindParam(2, $limit, PDO::PARAM_INT);
     }
 
-    $starting_limit = ($page - 1) * $limit;
-    $show  = "SELECT * FROM travel_schedule ORDER BY id DESC LIMIT ?,?";
-
-    $r = pdo()->prepare($show);
-    $r->bindParam(1, $starting_limit, PDO::PARAM_INT);
-    $r->bindParam(2, $limit, PDO::PARAM_INT);
     $r->execute();
 
     $res = $r->fetchAll(PDO::FETCH_ASSOC);
 
-    $filteredObject = array();
-
     foreach ($res as $travel) {
         $courierId = $travel['courier_id'];
         $regionId = $travel['region_id'];
+        $travelDate = new DateTime($travel['departure_date']);
 
         $queryCourier = pdo()->prepare("SELECT fio FROM couriers WHERE id = :courierId");
         $queryCourier->bindParam(':courierId', $courierId);
@@ -49,7 +61,7 @@ try {
             'id' => $travel['id'],
             'courier' => $courier,
             'region' => $region,
-            'departure_date' => $travel['departure_date']
+            'departure_date' => $travelDate->format('d.m.Y')
         ];
     }
 

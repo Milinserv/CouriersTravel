@@ -13,10 +13,17 @@
 
     <script src="src/createTravelSchedule.js"></script>
     <script src="src/displayAllTravels.js"></script>
+    <script src="src/searchTravelsByDate.js"></script>
 </head>
 <body class="container text-center justify-content-center">
 <main>
     <div style="padding-top: 40px !important;">
+
+        <div class="form-floating mb-3" style="width: 350px">
+            <input type="date" class="form-control" id="searchDateForTable" name="searchDateForTable">
+            <label>Фильтр по дате отправки</label>
+        </div>
+
         <table class="table" id="travels">
             <thead>
             <tr>
@@ -26,16 +33,27 @@
                 <th scope="col">Дата отправки</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="travelsBody">
             </tbody>
         </table>
     </div>
 
-    <div style="padding-top: 100px !important;">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Открыть модальное окно
-        </button>
+    <div class="pt-3">
+        <div style=" display: flex">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Открыть модальное окно
+            </button>
+        </div>
+        <div class="pt-3">
+            <nav aria-label="Page navigation example" id="headPag">
+                <ul class="pagination" id="pagination">
+
+                </ul>
+            </nav>
+        </div>
     </div>
+
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -93,12 +111,6 @@
             </div>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination" id="pagination">
-
-        </ul>
-    </nav>
 
 </main>
 </body>
