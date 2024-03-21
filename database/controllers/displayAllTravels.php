@@ -6,27 +6,26 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 include '../../database/config/boot.php';
 
 try {
-    $limit = 7;
+    $limit = 7; //количество страниц
     $query = "SELECT count(*) FROM travel_schedule";
 
     $s = pdo()->query($query);
     $total_results = $s->fetchColumn();
-    $total_pages = ceil($total_results/$limit);
+    $total_pages = ceil($total_results/$limit); // количество страниц для пагинации
 
-    $filteredObject = array();
+    $filteredObject = array(); // отфильтрованный массив выездов
     $r = '';
     $res = '';
 
     $page = 1;
 
+    //проверяем пришел ли фильтер по дате
     if ($_GET['searchDate'] != '') {
         $starting_limit = ($page - 1) * $limit;
         $show  = "SELECT * FROM travel_schedule WHERE departure_date = :departure_date ORDER BY id DESC";
 
         $r = pdo()->prepare($show);
         $r->bindParam(':departure_date', $_GET['searchDate']);
-//        $r->bindParam(':startDate', $starting_limit, PDO::PARAM_INT);
-//        $r->bindParam(':endDate', $limit, PDO::PARAM_INT);
     } else {
         $page = $_GET['currentPage'] !== '' ? $_GET['currentPage'] : 1;
 
@@ -42,6 +41,7 @@ try {
 
     $res = $r->fetchAll(PDO::FETCH_ASSOC);
 
+    //проходимся по всем полученным записям для фильтрации и корректного отображения данных
     foreach ($res as $travel) {
         $courierId = $travel['courier_id'];
         $regionId = $travel['region_id'];

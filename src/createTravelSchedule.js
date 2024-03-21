@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#sendTravel').submit(function(event) {
         event.preventDefault();
 
+        //данные для создания поездки
         const data = {
             region: $("#region").val(),
             travelDate: $("#travelDate").val(),
@@ -14,6 +15,7 @@ $(document).ready(function() {
             data: data,
             success: function (response) {
                 const res = JSON.parse(response);
+
                 if (res.stateCreate === true) {
                     $('#info').val('Курьер прибудет ' + res.endDate).css({
                         'color':'green',

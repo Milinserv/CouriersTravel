@@ -1,11 +1,11 @@
 $(document).ready(function (ajaxObj) {
 
-    const url = new URL(ajaxObj.ajaxSettings.url)
-    const currentPage = url.pathname.slice(1);
+    const url = new URL(ajaxObj.ajaxSettings.url); //получаем url страницы
+    const currentPage = url.pathname.slice(1); //получаем номер страницы
 
-    let searchDate = '';
-    let isSearch = false;
+    let searchDate = ''; //дата для поиска
 
+    //запрос на получение всех записей поездок
     function loadData() {
         $.ajax({
             url: "http://localhost:8000/database/controllers/displayAllTravels.php",
@@ -59,7 +59,6 @@ $(document).ready(function (ajaxObj) {
 
                 for (let i = 0; i < res.totalPage; i++) {
                     addLi(i + 1);
-                    // }
                 }
 
             },
@@ -71,10 +70,10 @@ $(document).ready(function (ajaxObj) {
 
     loadData();
 
+    //проверяем используется ли поиск по дате при нажатии на Enter
     $("#searchDateForTable").on('keypress', function (event) {
         if (event.which === 13) {
             searchDate = $('#searchDateForTable').val();
-            isSearch = true;
 
             $.ajax({
                 url: "http://localhost:8000/database/controllers/displayAllTravels.php",
@@ -128,7 +127,6 @@ $(document).ready(function (ajaxObj) {
 
                     for (let i = 0; i < res.totalPage; i++) {
                         addLi(i + 1);
-                        // }
                     }
 
                 },

@@ -1,5 +1,6 @@
-INSERT INTO travel_schedule (id, courier_id, region_id, departure_date)
-VALUES (1, 1, 1, '2022-10-15'),
-       (2, 2, 2, '2022-10-16'),
-       (3, 3, 3, '2022-10-17');
-
+INSERT INTO travel_schedule (courier_id, region_id, departure_date)
+SELECT
+       c.id AS courier_id,
+       r.id AS region_id,
+       DATE_ADD(CURDATE(), INTERVAL (r.count_days_way * (SELECT COUNT(*) FROM couriers)) DAY) AS departure_date
+FROM couriers c, regions r;
